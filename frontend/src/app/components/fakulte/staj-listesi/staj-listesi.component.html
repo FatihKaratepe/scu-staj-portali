@@ -1,0 +1,193 @@
+<div *ngIf="belgeLoading" class="belge-loading">
+    <div class="px-3">
+        <div>
+            <h2>Belge Oluşturuluyor...</h2>
+        </div>
+        <div><i class="fas fa-circle-notch fa-spin fa-3x"></i></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-3">
+        <div class="status-button-row">
+            <button type="button" class="btn" (click)="changeStatus('Onay Bekliyor')"
+                [ngClass]="activeStatus === 'Onay Bekliyor' ? 'btn-warning' : 'btn-outline-warning'">
+                Onay Bekliyor
+            </button>
+            <button type="button" class="btn" (click)="changeStatus('Basvuru Onaylandı')"
+                [ngClass]="activeStatus === 'Basvuru Onaylandı' ? 'btn-success' : 'btn-outline-success'">
+                Basvuru Onaylandı
+            </button>
+            <button type="button" class="btn" (click)="changeStatus('Firma Onayı')"
+                [ngClass]="activeStatus === 'Firma Onayı' ? 'btn-success' : 'btn-outline-success'">
+                Firma Onayı
+            </button>
+            <button type="button" class="btn" (click)="changeStatus('Tamamlandı')"
+                [ngClass]="activeStatus === 'Tamamlandı' ? 'btn-primary' : 'btn-outline-primary'">
+                Tamamlandı
+            </button>
+            <button type="button" class="btn" (click)="changeStatus('Basvuru Reddedildi')"
+                [ngClass]="activeStatus === 'Basvuru Reddedildi' ? 'btn-danger' : 'btn-outline-danger'">
+                Basvuru Reddedildi
+            </button>
+            <button type="button" class="btn" (click)="changeStatus('Staj Reddedildi')"
+                [ngClass]="activeStatus === 'Staj Reddedildi' ? 'btn-danger' : 'btn-outline-danger'">
+                Staj Reddedildi
+            </button>
+        </div>
+    </div>
+    <div class="col-12">
+        <ng-container *ngIf="stajList.length > 0 || searchActive">
+            <div class="table-responsive-md">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 200px;">
+                                <input type="text" class="form-control" mask="0000000000" [formControl]="ogrenciNo"
+                                    placeholder="Öğrenci no arama">
+                            </th>
+                            <th scope="col" style="width: 130px;"></th>
+                            <th scope="col" style="width: 110px;"></th>
+                            <th scope="col" style="width: 90px;"></th>
+                            <th scope="col" style="width: 130px;"></th>
+                            <th scope="col" style="width: 190px;"></th>
+                            <th scope="col" style="width: 130px;"></th>
+                            <th scope="col" style="width: 50px;"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col" style="width: 200px;">Öğrenci</th>
+                            <th scope="col" style="width: 130px;">Staj Başlangıç Tarihi</th>
+                            <th scope="col" style="width: 110px;">Staj Bitiş Tarihi</th>
+                            <th scope="col" style="width: 90px;">Gün Sayısı</th>
+                            <th scope="col" style="width: 130px;">Staj Yapılan Firma</th>
+                            <th scope="col" style="width: 190px;">Staj Yapılan Firma Yetkilisi</th>
+                            <th scope="col" style="width: 130px;">Durum</th>
+                            <th scope="col" style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let staj of stajList">
+                            <tr>
+                                <td>
+                                    <app-ogrenci-name [ogrenciNo]="staj.ogrenciNo" />
+                                </td>
+                                <td>{{ staj.baslangicTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi | dayBetween: staj.baslangicTarihi: staj.gunSayisi === 6 }}</td>
+                                <td>
+                                    <app-firma-name [firmaId]="staj.firmaId" />
+                                </td>
+                                <td>
+                                    <app-firma-yetkili-name [firmaYetkiliId]="staj.firmaYetkiliId" />
+                                </td>
+                                <td>
+                                    <span class="badge" [ngClass]="{
+                                        'text-bg-warning': staj.durum === 'Onay Bekliyor', 
+                                        'text-bg-info': staj.durum === 'Basvuru Onaylandı', 
+                                        'text-bg-success': staj.durum === 'Firma Onayı', 
+                                        'text-bg-secondary': staj.durum === 'Basvuru Reddedildi', 
+                                        'text-bg-danger': staj.durum === 'Staj Reddedildi', 
+                                        'text-bg-primary': staj.durum === 'Tamamlandı'}">
+                                        {{staj.durum}}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    [routerLink]="'/fakulte/staj-listesi/staj/'+staj.id">
+                                                    Detay Görüntüle
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Onay Bekliyor'">
+                                                <a class="dropdown-item c-pointer" (click)="approveStaj(staj.id)">
+                                                    Başvuruyu Onayla
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Onay Bekliyor'">
+                                                <a class="dropdown-item" (click)="changeStajStatus(staj.id, 'Basvuru Reddedildi')">
+                                                    Başvuruyu Reddet
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Basvuru Onaylandı'">
+                                                <a class="dropdown-item" (click)="updateStaj(staj)"
+                                                    data-bs-toggle="modal" data-bs-target="#stajUpdate">
+                                                    Firma/Yetkili Düzenleme
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Firma Onayı'">
+                                                <a class="dropdown-item" (click)="printSicil(staj.id)">
+                                                    Sicil Yazdır
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Firma Onayı'">
+                                                <a class="dropdown-item" (click)="printDefter(staj.id)">
+                                                    Defter Yazdır
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Firma Onayı'">
+                                                <a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#stajTamamlamaModal" (click)="stajTamamla(staj)">
+                                                    Stajı Tamamla
+                                                </a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Firma Onayı'">
+                                                <a class="dropdown-item" (click)="changeStajStatus(staj.id, 'Staj Reddedildi')">
+                                                    Stajı Reddet
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="stajList.length === 0 && !searchActive">
+            <div class="alert alert-danger" role="alert">
+                Henüz staj başvurusu yapılmamış!
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<app-basvuru-update (updated)="stajUpdated($event)" [staj$]="selectedStaj$" />
+
+<div class="modal fade" id="stajTamamlamaModal" tabindex="-1" aria-labelledby="stajTamamlamaModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="stajTamamlamaModalLabel">Staj Tamamlama</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <b>Mevcut Staj Süresi:</b> {{mevcutGunSayisi}}
+                    </div>
+                    <div class="col-12">
+                        <form [formGroup]="stajTamamlamaForm">
+                            <div class="mb-3">
+                                <label for="gunSayisi" class="form-label">Kabul Edilen Gün Sayısı</label>
+                                <input type="text" class="form-control" formControlName="gunSayisi" id="gunSayisi"
+                                    [ngClass]="controlValid(gunSayisi)">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="resetForm()">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="stajTamamlama(closeButton)">Başvuru
+                    Yazdır</button>
+            </div>
+        </div>
+    </div>
+</div>

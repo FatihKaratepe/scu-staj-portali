@@ -1,0 +1,60 @@
+:host {
+    display: block;
+    width: 100%;
+    background-color: #084e78;
+
+    .toolbar {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        justify-content: space-between;
+
+        .sidebar-toggle {
+            cursor: pointer;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .user-info {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+
+            .user-profile-photo {
+                height: 40px;
+                aspect-ratio: 1/1;
+                border-radius: 50%;
+                user-select: none;
+                object-fit: cover;
+            }
+
+            span {
+                color: #fff;
+                font-size: 14px;
+                margin-left: 8px;
+                user-select: none;
+            }
+
+            &::after {
+                content: '\f078';
+                font-family: 'Font Awesome 5 Pro';
+                user-select: none;
+                margin-left: 5px;
+                color: #fff;
+                display: inline-block;
+                transition: .3s;
+                font-size: 14px;
+            }
+
+            &.show::after {
+                transform: rotate(180deg);
+            }
+        }
+
+        .dropdown-menu-end {
+            a {
+                cursor: pointer;
+            }
+        }
+    }
+}

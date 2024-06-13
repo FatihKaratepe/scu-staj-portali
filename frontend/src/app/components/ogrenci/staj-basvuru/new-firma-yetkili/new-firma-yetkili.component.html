@@ -1,0 +1,41 @@
+<div class="modal fade" id="newFirmaYetkiliModal" tabindex="-1" aria-labelledby="newFirmaYetkiliModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newFirmaYetkiliModalLabel">Firma Yetkili Ekle</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="firmaYetkiliForm">
+                            <div class="mb-3">
+                                <label for="isim" class="form-label">Firma Yetkili Adı</label>
+                                <input type="text" class="form-control" formControlName="isim" id="isim"
+                                    placeholder="Firma yetkili adı girin" [ngClass]="controlValid(isim)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="soyisim" class="form-label">Firma Yetkili Soyadı</label>
+                                <input type="text" class="form-control" formControlName="soyisim" id="soyisim"
+                                    placeholder="Firma yetkili soyadı girin" [ngClass]="controlValid(soyisim)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="gorev" class="form-label">Firma Yetkili Görev veya Unvanı</label>
+                                <input type="text" class="form-control" formControlName="gorev" id="gorev"
+                                    placeholder="Firma yetkili görev veya unvanı girin" [ngClass]="controlValid(gorev)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="eposta" class="form-label">Firma Yetkili Eposta</label>
+                                <input type="text" class="form-control" formControlName="eposta" id="eposta"
+                                    placeholder="Firma eposta girin" [ngClass]="controlValid(eposta)">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="newFirmaYetkili(closeButton)">Firma Yetkili Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>

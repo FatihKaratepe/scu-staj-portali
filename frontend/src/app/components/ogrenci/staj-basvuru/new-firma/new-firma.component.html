@@ -1,0 +1,42 @@
+<div class="modal fade" id="newFirmaModal" tabindex="-1" aria-labelledby="newFirmaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newFirmaModalLabel">Firma Ekle</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="firmaForm">
+                            <div class="mb-3">
+                                <label for="firmaAdi" class="form-label">Firma Adı</label>
+                                <input type="text" class="form-control" formControlName="firmaAdi" id="firmaAdi"
+                                    placeholder="Firma adı girin" [ngClass]="controlValid(firmaAdi)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefon" class="form-label">Telefon</label>
+                                <input type="text" [mask]="'(000) 000 00 00'" prefix="+90" class="form-control"
+                                    formControlName="telefon" id="telefon" placeholder="Firma telefon girin"
+                                    [ngClass]="controlValid(telefon)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="hizmetAlani" class="form-label">Hizmet Alanı</label>
+                                <input type="text" class="form-control" formControlName="hizmetAlani" id="hizmetAlani"
+                                    placeholder="Firma hizmet alanı girin" [ngClass]="controlValid(hizmetAlani)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="adres" class="form-label">Adres</label>
+                                <textarea id="adres" class="form-control" rows="6" formControlName="adres"
+                                    placeholder="Firma adres girin" [ngClass]="controlValid(adres)"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="newFirma(closeButton)">Firma Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>

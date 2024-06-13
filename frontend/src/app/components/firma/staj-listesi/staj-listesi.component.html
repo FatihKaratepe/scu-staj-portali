@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-12">
+        <ng-container *ngIf="stajList.length > 0">
+            <div class="table-responsive-md">
+                <table class="table table-striped table-hover table-bordered">
+                    <!-- <thead>
+                        <tr>
+                            <th scope="col" style="width: 200px;">Öğrenci</th>
+                            <th scope="col" style="width: 130px;">Staj Başlangıç Tarihi</th>
+                            <th scope="col" style="width: 110px;">Staj Bitiş Tarihi</th>
+                            <th scope="col" style="width: 90px;">Gün Sayısı</th>
+                            <th scope="col" style="width: 130px;">Staj Yapılan Firma</th>
+                            <th scope="col" style="width: 190px;">Staj Yapılan Firma Yetkilisi</th>
+                            <th scope="col" style="width: 130px;">Durum</th>
+                            <th scope="col" style="width: 50px;"></th>
+                        </tr>
+                    </thead> -->
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 200px;">Öğrenci</th>
+                            <th scope="col" style="width: 130px;">Staj Başlangıç Tarihi</th>
+                            <th scope="col" style="width: 110px;">Staj Bitiş Tarihi</th>
+                            <th scope="col" style="width: 90px;">Gün Sayısı</th>
+                            <th scope="col" style="width: 130px;">Staj Yapılan Firma</th>
+                            <th scope="col" style="width: 190px;">Staj Yapılan Firma Yetkilisi</th>
+                            <th scope="col" style="width: 130px;">Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let staj of stajList">
+                            <tr (click)="stajDetail(staj)" class="c-pointer">
+                                <td>
+                                    <app-ogrenci-name [ogrenciNo]="staj.ogrenciNo" />
+                                </td>
+                                <td>{{ staj.baslangicTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi | dayBetween: staj.baslangicTarihi: staj.gunSayisi === 6 }}</td>
+                                <td>
+                                    <app-firma-name [firmaId]="staj.firmaId" />
+                                </td>
+                                <td>
+                                    <app-firma-yetkili-name [firmaYetkiliId]="staj.firmaYetkiliId" />
+                                </td>
+                                <td>
+                                    <span class="badge" [ngClass]="{
+                                        'text-bg-warning': staj.durum === 'Onay Bekliyor', 
+                                        'text-bg-info': staj.durum === 'Basvuru Onaylandı', 
+                                        'text-bg-success': staj.durum === 'Firma Onayı', 
+                                        'text-bg-secondary': staj.durum === 'Basvuru Reddedildi', 
+                                        'text-bg-danger': staj.durum === 'Staj Reddedildi', 
+                                        'text-bg-primary': staj.durum === 'Tamamlandı'}">
+                                        {{staj.durum}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="stajList.length === 0">
+            <div class="alert alert-danger" role="alert">
+                Henüz staj başvurusu yapılmamış!
+            </div>
+        </ng-container>
+    </div>
+</div>

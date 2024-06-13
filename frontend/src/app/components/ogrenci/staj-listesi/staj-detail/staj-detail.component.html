@@ -1,0 +1,57 @@
+<ng-container *ngIf="currentStaj">
+    <div class="row">
+        <div class="col-12">
+            <div class="accordion" id="stajRaporlari">
+                <ng-container *ngFor="let item of stajDays; index as index">
+                    <div class="accordion-item" [ngClass]="{'disabled': disableCollapse(item.tarih) }">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" [ngClass]="{'collapse-danger': item.durum == 'Reddedildi', 'collapse-success': item.durum == 'Onaylandı', 'collapse-warning': item.durum == 'Onay Bekliyor'}" type="button" data-bs-toggle="collapse"
+                                [attr.data-bs-target]="disableCollapse(item.tarih) ? '' : '#stajDays-'+index"
+                                aria-expanded="false" [attr.aria-controls]="'#stajDays-'+index">
+                                Rapor ({{item.durum}}) - {{item.tarih | date: 'longDate'}}
+                            </button>
+                        </h2>
+                        <div [attr.id]="'stajDays-'+index" class="accordion-collapse collapse"
+                            data-bs-parent="#stajRaporlari">
+                            <div class="accordion-body">
+                                <div>
+                                    <b>Rapor Başlığı: </b>
+                                    <ng-container *ngIf="!item.baslik">
+                                        <i>Rapor başlığı ekle</i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.baslik">
+                                        {{item.baslik}}
+                                    </ng-container>
+                                </div>
+                                <div>
+                                    <b>Rapor İçeriği: </b>
+                                    <ng-container *ngIf="!item.aciklama">
+                                        <i>Rapor içeriği ekle</i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.aciklama">
+                                        {{item.aciklama}}
+                                    </ng-container>
+                                </div>
+                                <div>
+                                    <b>Rapor Durumu:</b><i> {{item.durum}}</i>
+                                </div>
+
+                                <div class="text-end" *ngIf="!item.aciklama">
+                                    <button class="btn btn-primary" (click)="addRapor(item.id)" data-bs-toggle="modal"
+                                        data-bs-target="#raporIcerikModal">Rapor İçeriği Ekle</button>
+                                </div>
+                                <div class="text-end" *ngIf="item.durum == 'Reddedildi'">
+                                    <button class="btn btn-primary" (click)="updateRapor(item)" data-bs-toggle="modal"
+                                        data-bs-target="#raporIcerikEditModal">Rapor İçeriğini Düzenle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<app-rapor-detail (raporAdded)="raporAdded($event)" [raporId]="currentRaporId$" />
+<app-rapor-detail-edit (raporAdded)="raporAdded($event)" [raporDetail]="currentRaporDetail$" />

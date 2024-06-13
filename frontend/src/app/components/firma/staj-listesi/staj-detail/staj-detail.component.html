@@ -1,0 +1,157 @@
+<ng-container *ngIf="currentStaj">
+    <div class="row">
+        <div class="col-12">
+            <div class="accordion" id="stajRaporlari">
+                <ng-container *ngFor="let item of stajDays; index as index">
+                    <div class="accordion-item" [ngClass]="{'disabled': disableCollapse(item.tarih) }">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" [id]="item.id"
+                                [ngClass]="{'collapse-danger': item.durum == 'Reddedildi', 'collapse-success': item.durum == 'Onaylandı', 'collapse-warning': item.durum == 'Onay Bekliyor'}"
+                                type="button" data-bs-toggle="collapse"
+                                [attr.data-bs-target]="disableCollapse(item.tarih) ? '' : '#stajDays-'+index"
+                                aria-expanded="false" [attr.aria-controls]="'#stajDays-'+index">
+                                Rapor ({{item.durum}}) - {{item.tarih | date: 'longDate'}}
+                            </button>
+                        </h2>
+                        <div [attr.id]="'stajDays-'+index" class="accordion-collapse collapse"
+                            data-bs-parent="#stajRaporlari">
+                            <div class="accordion-body">
+                                <div>
+                                    <div>
+                                        <b>Rapor Başlığı: </b>
+                                        <ng-container *ngIf="!item.baslik">
+                                            <i>Rapor başlığı eklenmemiş</i>
+                                        </ng-container>
+                                        <ng-container *ngIf="item.baslik">
+                                            {{item.baslik}}
+                                        </ng-container>
+                                    </div>
+                                    <b>Rapor İçeriği: </b>
+                                    <ng-container *ngIf="!item.aciklama">
+                                        <i>Rapor içeriği eklenmemiş</i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.aciklama">
+                                        {{item.aciklama}}
+                                    </ng-container>
+                                </div>
+                                <div>
+                                    <b>Rapor Durumu:</b><i> {{item.durum}}</i>
+                                </div>
+                                <div *ngIf="item.durum == 'Onay Bekliyor'" class="mt-4">
+                                    <button type="button" class="btn btn-outline-success me-2"
+                                        (click)="changeRaporStatus(item.id, 'Onaylandı', index)">Onayla</button>
+                                    <button type="button" class="btn btn-outline-danger"
+                                        (click)="changeRaporStatus(item.id, 'Reddedildi', index)">Reddet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+
+<button #openSicilButton class="d-none" data-bs-toggle="modal" data-bs-target="#stajSicilFormModal">Deneme</button>
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="stajSicilFormModal" tabindex="-1"
+    aria-labelledby="stajSicilFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="stajSicilFormModalLabel">Staj Gizli Sicil</h1>
+                <button #closeModal type="button" class="btn-close d-none" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form [formGroup]="sicilForm">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="subeBirim" class="form-label">Öğrencinin Çalıştığı Şube veya
+                                        Birim</label>
+                                    <div>
+                                        <small class="text-danger">
+                                            Birden fazla şube olması durumda virgül ile ayırıp yazabilirsiniz.
+                                        </small>
+                                    </div>
+                                    <textarea class="form-control" formControlName="subeBirim" id="subeBirim"
+                                        placeholder="Şube veya birim girin" [ngClass]="controlValid(subeBirim)"
+                                        rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <label for="devamDurumu" class="form-label">Devam Durumu</label>
+                                    <app-not-select [control]="devamDurumu" placeholder="Devam durumu seçin"
+                                        [labelId]="'devamDurumu'" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="devamDurumuDusunce" class="form-label">Devam Durumu Düşünceler</label>
+                                    <textarea class="form-control" formControlName="devamDurumuDusunce"
+                                        id="devamDurumuDusunce" placeholder="Devam durumu düşüncelerinizi girin"
+                                        [ngClass]="controlValid(devamDurumuDusunce)" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <label for="calismaGayreti" class="form-label">Çalışma Gayreti</label>
+                                    <app-not-select [control]="calismaGayreti" placeholder="Çalışma gayreti seçin"
+                                        [labelId]="'calismaGayreti'" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="calismaGayretiDusunce" class="form-label">Çalışma Gayreti
+                                        Düşünceler</label>
+                                    <textarea class="form-control" formControlName="calismaGayretiDusunce"
+                                        id="calismaGayretiDusunce" placeholder="Çalışma gayreti düşüncelerinizi girin"
+                                        [ngClass]="controlValid(calismaGayretiDusunce)" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <label for="isiTamYapma" class="form-label">İşi Tam Yapma</label>
+                                    <app-not-select [control]="isiTamYapma" placeholder="İşi tam yapma seçin"
+                                        [labelId]="'isiTamYapma'" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="isiTamYapmaDusunce" class="form-label">İşi Tam Yapma Düşünceler</label>
+                                    <textarea class="form-control" formControlName="isiTamYapmaDusunce"
+                                        id="isiTamYapmaDusunce" placeholder="İşi tam yapma düşüncelerinizi girin"
+                                        [ngClass]="controlValid(isiTamYapmaDusunce)" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <label for="isYeriTutumu" class="form-label">İş Yeri Tutumu</label>
+                                    <app-not-select [control]="isYeriTutumu" placeholder="İş yeri tutumu seçin"
+                                        [labelId]="'isYeriTutumu'" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="isYeriTutumuDusunce" class="form-label">İş Yeri Tutumu
+                                        Düşünceler</label>
+                                    <textarea type="text" class="form-control" formControlName="isYeriTutumuDusunce"
+                                        id="isYeriTutumuDusunce" placeholder="İş yeri tutumu düşüncelerinizi girin"
+                                        [ngClass]="controlValid(isYeriTutumuDusunce)" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="updateSicil(closeModal)">
+                    Gizli Sicil Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

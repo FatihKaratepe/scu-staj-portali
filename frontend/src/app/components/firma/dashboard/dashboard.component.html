@@ -1,0 +1,45 @@
+<div class="row">
+
+    <div class="col-12 mb-4">
+        <div class="alert-container">
+            <div class="alert-header warning">
+                <i class="far fa-clock fa-fw"></i> Onay Bekleyen Raporlar
+            </div>
+            <div class="alert-content warning">
+                <div *ngIf="onayBekleyenRaporList.length > 0" class="table-responsive-md">
+                    <table class="table mb-0 table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Öğrenci Adı</th>
+                                <th scope="col">Rapor Tarihi</th>
+                                <th scope="col">Rapor Durumu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of onayBekleyenRaporList">
+                                <tr [routerLink]="'staj-listesi/staj/'+item.stajId" [queryParams]="{activeRapor: item.raporId}"
+                                    class="c-pointer">
+                                    <td>
+                                        <app-ogrenci-name [ogrenciNo]="item.ogrenciNo" />
+                                    </td>
+                                    <td>
+                                        {{item.tarih | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        <span class="badge text-bg-warning">
+                                            {{item.durum}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf="onayBekleyenRaporList.length === 0" class="text-center my-3 text-warning">
+                    Veri Yok
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

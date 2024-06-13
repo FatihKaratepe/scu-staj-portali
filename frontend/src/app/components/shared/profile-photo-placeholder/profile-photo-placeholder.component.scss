@@ -1,0 +1,56 @@
+:host {
+    display: inline-block;
+}
+
+.photo-placeholder {
+    aspect-ratio: 1/1;
+    font-weight: 500;
+    background-color: #cddaea;
+    color: #183350;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 50%;
+    line-height: 1;
+    user-select: none;
+    text-transform: uppercase; 
+    width: 24px;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.colored-border {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border: 2px solid;
+    border-radius: 50%;
+    display: none;
+}
+
+.show-shadow {
+    position: relative;
+    .colored-border {
+        display: block;
+    }
+}
+
+.profile-photo-placeholder {
+    aspect-ratio: 1/1;
+    font-size: 24px;
+    font-weight: 500;
+    background-color: #cddaea;
+    color: #183350;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 50%;
+    line-height: 1;
+    user-select: none;
+    text-transform: uppercase;
+    width: 60px;
+}

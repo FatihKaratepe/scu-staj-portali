@@ -1,0 +1,149 @@
+<ng-container *ngIf="currentStaj?.durum === 'Onay Bekliyor'">
+    <div class="d-none">
+        <app-ogrenci-name #ogrenci [ogrenciNo]="currentStaj?.ogrenciNo!" />
+        <app-firma-name #firma [firmaId]="currentStaj?.firmaId!" />
+        <app-firma-yetkili-name #firmaYetkili [firmaYetkiliId]="currentStaj?.firmaYetkiliId!" />
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-lg-3">
+                    <img [src]="ogrenci.ogrenci?.fotograf" class="img-fluid" alt="">
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div>
+                        <h4> Öğrenci Bilgileri </h4>
+                        <div>
+                            <b>Öğrenci Adı: </b>
+                            <span>{{ogrenci.name}}</span>
+                        </div>
+                        <div>
+                            <b>Öğrenci No: </b>
+                            <span>{{ogrenci.ogrenci?.ogrenciNo}}</span>
+                        </div>
+                        <div>
+                            <b>Öğrenci Telefon: </b>
+                            <span>{{ogrenci.ogrenci?.telefon}}</span>
+                        </div>
+                        <div>
+                            <b>Öğrenci E-Posta: </b>
+                            <span>{{ogrenci.ogrenci?.eposta}}</span>
+                        </div>
+                        <div>
+                            <b>Öğrenci Sınıf: </b>
+                            <span>{{ogrenci.ogrenci?.sinif}}</span>
+                        </div>
+                        <div>
+                            <b>Öğretim Dönemi: </b>
+                            <span>{{ogrenci.ogrenci?.donem}}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4> Firma Bilgileri </h4>
+                        <div>
+                            <b>Firma Adı: </b>
+                            <span>{{firma.firma?.firmaAdi}}</span>
+                        </div>
+                        <div>
+                            <b>Firma Telefon: </b>
+                            <span>{{firma.firma?.telefon}}</span>
+                        </div>
+                        <div>
+                            <b>Firma Adres: </b>
+                            <span>{{firma.firma?.adres}}</span>
+                        </div>
+                        <div>
+                            <b>Firma Hizmet Alanı: </b>
+                            <span>{{firma.firma?.hizmetAlani}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4> Firma Yetkili Bilgileri </h4>
+                        
+                        <div>
+                            <b>Firma Yetkili Adı: </b>
+                            <span>{{firmaYetkili.name}}</span>
+                        </div>
+                        <div>
+                            <b>Firma Yetkili E-Posta: </b>
+                            <span>{{firmaYetkili.firmaYetkili?.eposta}}</span>
+                        </div>
+                        <div>
+                            <b>Firma Yetkili Görev / Unvan: </b>
+                            <span>{{firmaYetkili.firmaYetkili?.gorev}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4> Staj Bilgileri </h4>
+                        <!-- <td>{{ staj.baslangicTarihi| date: 'longDate' }}</td>
+                        <td>{{ staj.bitisTarihi| date: 'longDate' }}</td>
+                        <td>{{ staj.bitisTarihi | dayBetween: staj.baslangicTarihi: staj.gunSayisi === 6 }}</td> -->
+                        <div>
+                            <b>Başlangıç Tarihi: </b>
+                            <span>{{currentStaj?.baslangicTarihi| date: 'longDate'}}</span>
+                        </div>
+                        <div>
+                            <b>Bitiş Tarihi: </b>
+                            <span>{{currentStaj?.bitisTarihi| date: 'longDate'}}</span>
+                        </div>
+                        <div>
+                            <b>Staj Gün Sayısı: </b>
+                            <span>{{currentStaj?.bitisTarihi! | dayBetween: currentStaj?.baslangicTarihi!: currentStaj?.gunSayisi! === 6 }}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+
+<ng-container *ngIf="currentStaj">
+    <div class="row">
+        <div class="col-12">
+            <div class="accordion" id="stajRaporlari">
+                <ng-container *ngFor="let item of stajDays; index as index">
+                    <div class="accordion-item" [ngClass]="{'disabled': disableCollapse(item.tarih) }">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" [ngClass]="{'collapse-danger': item.durum == 'Reddedildi', 'collapse-success': item.durum == 'Onaylandı', 'collapse-warning': item.durum == 'Onay Bekliyor'}" type="button" data-bs-toggle="collapse"
+                                [attr.data-bs-target]="disableCollapse(item.tarih) ? '' : '#stajDays-'+index"
+                                aria-expanded="false" [attr.aria-controls]="'#stajDays-'+index">
+                                Rapor ({{item.durum}}) - {{item.tarih | date: 'longDate'}}
+                            </button>
+                        </h2>
+                        <div [attr.id]="'stajDays-'+index" class="accordion-collapse collapse"
+                            data-bs-parent="#stajRaporlari">
+                            <div class="accordion-body">
+                                <div>
+                                    <div>
+                                        <b>Rapor Başlığı: </b>
+                                        <ng-container *ngIf="!item.baslik">
+                                            <i>Rapor başlığı eklenmemiş</i>
+                                        </ng-container>
+                                        <ng-container *ngIf="item.baslik">
+                                            {{item.baslik}}
+                                        </ng-container>
+                                    </div>
+                                    <b>Rapor İçeriği: </b>
+                                    <ng-container *ngIf="!item.aciklama">
+                                        <i>Rapor içeriği eklenmemiş</i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.aciklama">
+                                        {{item.aciklama}}
+                                    </ng-container>
+                                </div>
+                                <div>
+                                    <b>Rapor Durumu:</b><i> {{item.durum}}</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-container>

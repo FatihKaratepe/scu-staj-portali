@@ -1,0 +1,93 @@
+<div class="modal fade" id="stajUpdate" tabindex="-1" aria-labelledby="stajUpdateLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="stajUpdateLabel">Staj Düzenleme</h1>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form [formGroup]="firmaForm">
+                        <h4>Firma Bilgileri</h4>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="firmaAdi" class="form-label">Firma Adı</label>
+                                    <input type="text" class="form-control" formControlName="firmaAdi" id="firmaAdi"
+                                        placeholder="Firma adı girin" [ngClass]="controlValid(firmaAdi)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="telefon" class="form-label">Telefon</label>
+                                    <input type="text" [mask]="'(000) 000 00 00'" prefix="+90" class="form-control"
+                                        formControlName="telefon" id="telefon" placeholder="Firma telefon girin"
+                                        [ngClass]="controlValid(telefon)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="hizmetAlani" class="form-label">Hizmet Alanı</label>
+                                    <input type="text" class="form-control" formControlName="hizmetAlani"
+                                        id="hizmetAlani" placeholder="Firma hizmet alanı girin"
+                                        [ngClass]="controlValid(hizmetAlani)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="adres" class="form-label">Adres</label>
+                                    <textarea id="adres" class="form-control" rows="6" formControlName="adres"
+                                        placeholder="Firma adres girin" [ngClass]="controlValid(adres)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form [formGroup]="firmaYetkiliForm">
+                        <h4>Firma Yetkili Bilgileri</h4>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="isim" class="form-label">Firma Yetkili Adı</label>
+                                    <input type="text" class="form-control" formControlName="isim" id="isim"
+                                        placeholder="Firma yetkili adı girin" [ngClass]="controlValid(isim)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="soyisim" class="form-label">Firma Yetkili Soyadı</label>
+                                    <input type="text" class="form-control" formControlName="soyisim" id="soyisim"
+                                        placeholder="Firma yetkili soyadı girin" [ngClass]="controlValid(soyisim)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="gorev" class="form-label">Firma Yetkili Görev veya Unvanı</label>
+                                    <input type="text" class="form-control" formControlName="gorev" id="gorev"
+                                        placeholder="Firma yetkili görevi veya unvanı girin" [ngClass]="controlValid(gorev)">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="eposta" class="form-label">Firma Yetkili Eposta</label>
+                                    <input type="text" class="form-control" formControlName="eposta" id="eposta"
+                                        placeholder="Firma eposta girin" [ngClass]="controlValid(eposta)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-12 col-lg-6">
+                                <button [disabled]="eposta.value !== firmaYetkili?.eposta" class="btn btn-outline-success text-center w-100 d-block" (click)="sendAuth()">
+                                    Giriş Bilgilerini Tekrar Gönder
+                                </button>
+                                <small *ngIf="eposta.value !== firmaYetkili?.eposta" class="text-danger">*Giriş bilgilerini göndermek için öncelikle firma yetkilisinin bilgilerini güncellemeniz gerekmektedir.</small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="startUpdate(closeButton)">Bilgileri Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>

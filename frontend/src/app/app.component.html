@@ -1,0 +1,17 @@
+<main [ngClass]="{'show-sidebar': (showSideBar$ | async)}">
+  <ng-container *ngIf="userType">
+    <app-sidebar [ngClass]="{'show': (showSideBar$ | async)}" [userType]="userType" />
+    <section class="page-main">
+      <app-toolbar />
+      <div class="container">
+        <div class="router-content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="!userType">
+    <app-login />
+  </ng-container>
+</main>

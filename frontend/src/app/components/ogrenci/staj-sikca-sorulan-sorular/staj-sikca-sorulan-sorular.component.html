@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-12">
+        <div class="accordion" id="sikcaSorulanSorular">
+            <div class="accordion-item" *ngFor="let item of sss; index as index">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" [ngClass]="{'collapsed': index !== 0}" type="button"
+                        data-bs-toggle="collapse" [attr.data-bs-target]="'#sss-'+index"
+                        [attr.aria-expanded]="index === 0 ? 'false' : 'true'" [attr.aria-controls]="'#sss-'+index">
+                        {{item.title}}
+                    </button>
+                </h2>
+                <div [attr.id]="'sss-'+index" class="accordion-collapse collapse" [ngClass]="{'show':index === 0}"
+                    data-bs-parent="#sikcaSorulanSorular">
+                    <div class="accordion-body">
+                        <div [innerHTML]="item.content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

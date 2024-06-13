@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import "./assets/styles/scrollbar.scss";
+@import "./assets/styles/toastr.scss";
+@import "./assets/styles/ng-select.scss";
+@import "./assets/styles/normalize.scss";
+@import "./assets/styles/table.scss";
+@import "./assets/styles/collapse.scss";
+
+:root {
+    --bs-body-font-family: 'Roboto', sans-serif;
+}
+
+.form-label {
+    margin-bottom: 0;
+}
+
+.c-pointer {
+    cursor: pointer;
+}

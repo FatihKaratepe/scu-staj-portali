@@ -1,0 +1,20 @@
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <img src="../../../../assets/images/logo.jpg">
+        <span>
+            Staj Portalı
+        </span>
+        <span class="close-sidebar d-block d-lg-none" (click)="closeSidebar()">
+            <i class="fal fa-times text-white"></i>
+        </span>
+    </div>
+    <div class="sidebar-router-list">
+        <ng-container *ngFor="let item of routerList">
+            <a [routerLink]="item.route" [routerLinkActive]="'active'" (click)="checkToolbar()"
+                [routerLinkActiveOptions]="(item.route === 'ogrenci' || item.route === 'fakulte' || item.route === 'firma') ? { exact: true } : { exact: false }"
+                class="sidebar-router-element">
+                {{item.label}}
+            </a>
+        </ng-container>
+    </div>
+</div>

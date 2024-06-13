@@ -1,0 +1,19 @@
+.accordion-item {
+    border-radius: var(--bs-accordion-inner-border-radius);
+    
+
+    .accordion-button {
+        border-radius: var(--bs-accordion-inner-border-radius) var(--bs-accordion-inner-border-radius) 0 0;
+
+        &.collapsed {
+            border-radius: var(--bs-accordion-inner-border-radius);
+        }
+    }
+
+
+
+    &:not(:first-of-type) {
+        margin-top: 20px;
+        border-top: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+    }
+}

@@ -1,0 +1,27 @@
+<div class="modal fade" id="raporIcerikModal" tabindex="-1" aria-labelledby="raporIcerikModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="raporIcerikModalLabel">Rapor İçeriği Ekle</h1>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Rapor içeriği gönderildikten sonra düzenlenemez.
+                </div>
+                <div class="mb-2">
+                    <input type="text" placeholder="Başlık" class="form-control" [formControl]="baslik">
+                </div>
+                <div>
+                    <textarea [formControl]="aciklama" placeholder="İçerik" [ngClass]="controlValid(aciklama)" class="form-control" rows="10"
+                        style="resize: none;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton (click)="resetForm()" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" [disabled]="aciklama.invalid"
+                    (click)="addRapor(closeButton)">Rapor Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>

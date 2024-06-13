@@ -1,0 +1,13 @@
+.accordion-button:not(.collapsed),
+button:is(:hover, :active, :focus, :focus-visible, :focus-within) {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}

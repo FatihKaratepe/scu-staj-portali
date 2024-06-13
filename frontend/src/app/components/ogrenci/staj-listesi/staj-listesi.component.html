@@ -1,0 +1,202 @@
+<div *ngIf="belgeLoading" class="belge-loading">
+    <div class="px-3">
+        <div>
+            <h2>Belge Oluşturuluyor...</h2>
+        </div>
+        <div><i class="fas fa-circle-notch fa-spin fa-3x"></i></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ng-container *ngIf="stajList.length > 0">
+            <div class="table-responsive-md">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 130px;">Staj Başlangıç Tarihi</th>
+                            <th scope="col" style="width: 110px;">Staj Bitiş Tarihi</th>
+                            <th scope="col" style="width: 90px;">Gün Sayısı</th>
+                            <th scope="col" style="width: 130px;">Staj Yapılan Firma</th>
+                            <th scope="col" style="width: 190px;">Staj Yapılan Firma Yetkilisi</th>
+                            <th scope="col" style="width: 130px;">Durum</th>
+                            <th scope="col" style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let staj of stajList">
+                            <tr>
+                                <td>{{ staj.baslangicTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi| date: 'longDate' }}</td>
+                                <td>{{ staj.bitisTarihi | dayBetween: staj.baslangicTarihi: staj.gunSayisi === 6 }}</td>
+                                <td>
+                                    <app-firma-name [firmaId]="staj.firmaId" />
+                                </td>
+                                <td>
+                                    <app-firma-yetkili-name [firmaYetkiliId]="staj.firmaYetkiliId" />
+                                </td>
+                                <td>
+                                    <span class="badge" [ngClass]="{
+                                        'text-bg-warning': staj.durum === 'Onay Bekliyor', 
+                                        'text-bg-info': staj.durum === 'Basvuru Onaylandı', 
+                                        'text-bg-success': staj.durum === 'Firma Onayı', 
+                                        'text-bg-secondary': staj.durum === 'Basvuru Reddedildi', 
+                                        'text-bg-danger': staj.durum === 'Staj Reddedildi', 
+                                        'text-bg-primary': staj.durum === 'Tamamlandı'}">
+                                        {{staj.durum}}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li *ngIf="staj.durum === 'Basvuru Onaylandı'">
+                                                <a class="dropdown-item" (click)="stajDetail(staj.id)">Staj Detayı</a>
+                                            </li>
+                                            <li *ngIf="staj.durum === 'Onay Bekliyor'">
+                                                <a class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#kimlikBilgilerModal"
+                                                    (click)="setPrintId(staj.id)">Başvuru Yazdır</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="stajList.length === 0">
+            <div class="alert alert-danger" role="alert">
+                Henüz staj başvurusu yapılmamış!
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<div class="modal fade" id="kimlikBilgilerModal" tabindex="-1" aria-labelledby="kimlikBilgilerModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="kimlikBilgilerModalLabel">Kimlik Bilgileri</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="alert alert-danger" role="alert">
+                            Staj başvuru formuna ait bilgileri doldurmanız gerekmektedir!
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <form [formGroup]="kimlikBilgiForm">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="babaAdi" class="form-label">Baba Adı</label>
+                                        <input type="text" class="form-control" formControlName="babaAdi" id="babaAdi"
+                                            [ngClass]="controlValid(babaAdi)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="anaAdi" class="form-label">Ana Adı</label>
+                                        <input type="text" class="form-control" formControlName="anaAdi" id="anaAdi"
+                                            [ngClass]="controlValid(anaAdi)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="dogumYeri" class="form-label">Doğum Yeri</label>
+                                        <input type="text" class="form-control" formControlName="dogumYeri"
+                                            id="dogumYeri" [ngClass]="controlValid(dogumYeri)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="dogumTarihi" class="form-label">Doğum Tarihi</label>
+                                        <input type="date" class="form-control" formControlName="dogumTarihi"
+                                            id="dogumTarihi" [ngClass]="controlValid(dogumTarihi)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="tcNo" class="form-label">TC No</label>
+                                        <input type="text" class="form-control" formControlName="tcNo" id="tcNo"
+                                            [ngClass]="controlValid(tcNo)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="seriNo" class="form-label">Seri No</label>
+                                        <input type="text" class="form-control" formControlName="seriNo" id="seriNo"
+                                            [ngClass]="controlValid(seriNo)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="kayitliOlduguIl" class="form-label">Kayıtlı Olduğu İl</label>
+                                        <input type="text" class="form-control" formControlName="kayitliOlduguIl"
+                                            id="kayitliOlduguIl" [ngClass]="controlValid(kayitliOlduguIl)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="kayitliOlduguIlce" class="form-label">Kayıtlı Olduğu İlçe</label>
+                                        <input type="text" class="form-control" formControlName="kayitliOlduguIlce"
+                                            id="kayitliOlduguIlce" [ngClass]="controlValid(kayitliOlduguIlce)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="mahalle" class="form-label">Köy - Mahalle</label>
+                                        <input type="text" class="form-control" formControlName="mahalle" id="mahalle"
+                                            [ngClass]="controlValid(mahalle)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="ciltNo" class="form-label">Cilt No</label>
+                                        <input type="text" class="form-control" formControlName="ciltNo" id="ciltNo"
+                                            [ngClass]="controlValid(ciltNo)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="aileSiraNo" class="form-label">Aile Sıra No</label>
+                                        <input type="text" class="form-control" formControlName="aileSiraNo"
+                                            id="aileSiraNo" [ngClass]="controlValid(aileSiraNo)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="siraNo" class="form-label">Sıra No</label>
+                                        <input type="text" class="form-control" formControlName="siraNo" id="siraNo"
+                                            [ngClass]="controlValid(siraNo)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verildigiYer" class="form-label">Kayıtlı Olduğu Nufüs
+                                            Dairesi</label>
+                                        <input type="text" class="form-control" formControlName="verildigiYer"
+                                            id="verildigiYer" [ngClass]="controlValid(verildigiYer)">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button #closeButton type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="resetForm()">Kapat</button>
+                <button type="button" class="btn btn-primary" (click)="printBasvuru(closeButton)">Başvuru Yazdır</button>
+            </div>
+        </div>
+    </div>
+</div>

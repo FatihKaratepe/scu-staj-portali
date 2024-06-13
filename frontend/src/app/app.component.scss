@@ -1,0 +1,17 @@
+main {
+    min-height: 100vh;
+    background-color: #fafafa;
+    transition: padding-left .2s;
+    padding-left: 0;
+
+    @media (min-width: 992px) {
+        &.show-sidebar {
+            padding-left: 300px;
+        }
+    }
+
+    .router-content {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}

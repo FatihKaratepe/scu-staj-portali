@@ -1,0 +1,26 @@
+<div class="toolbar">
+    <div class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="far fa-bars fa-fw"></i>
+    </div>
+
+    <div class="dropdown">
+        <div class="user-info" data-bs-toggle="dropdown" aria-expanded="false">
+            <ng-container *ngIf="photo">
+                <img class="user-profile-photo" [src]="photo">
+            </ng-container>
+            <ng-container *ngIf="!photo">
+                <app-profile-photo-placeholder [firstName]="firstName" [lastName]="lastname" />
+            </ng-container>
+            <span>
+                {{userName}}
+            </span>
+        </div>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/sifre-degistir"><i class="far fa-key fa-fw"></i> Şifre Değiştir</a></li>
+            <li><a class="dropdown-item" (click)="logout()"><i class="far fa-sign-out-alt fa-fw"></i> Çıkış Yap</a></li>
+        </ul>
+
+    </div>
+
+</div>

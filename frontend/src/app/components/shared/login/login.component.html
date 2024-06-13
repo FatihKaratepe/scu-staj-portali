@@ -1,0 +1,65 @@
+<section>
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-12 col-lg-4">
+                <div class="left-side">
+                    <div class="left-side-form">
+                        <div class="login-form-container">
+                            <div class="login-logo">
+                                <img src="../../../../assets/images/logo.jpg" width="100px" height="100px">
+                            </div>
+                            <div class="login-title">
+                                <h1>Staj Portalı Giriş</h1>
+                            </div>
+                            <div class="login-form">
+                                <form [formGroup]="loginForm">
+                                    <div class="mb-3">
+                                        <label for="usertype-control" class="form-label">Kullanıcı Türü:</label>
+                                        <ng-select labelForId="usertype-control" [searchable]="false"
+                                            [clearable]="false" formControlName="userType"
+                                            [ngClass]="controlValid(userType)" [placeholder]="placeholders.userType">
+                                            <ng-option value="Ogrenci">Öğrenci</ng-option>
+                                            <ng-option value="Fakulte">Fakülte Sorumlusu</ng-option>
+                                            <ng-option value="Firma">Firma Sorumlusu</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="username-control" class="form-label">Kullanıcı Adı:</label>
+                                        <input #userNameInput type="text" formControlName="userName"
+                                            class="form-control" id="username-control"
+                                            [mask]="userType.value === 'Ogrenci' ? '0000000000' : (userType.value === 'Fakulte' ? '00000000000' : '')"
+                                            [ngClass]="controlValid(userName)" [placeholder]="placeholders.userName">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password-control" class="form-label">Şifre:</label>
+                                        <input type="password" formControlName="password" class="form-control"
+                                            id="password-control" [ngClass]="controlValid(password)"
+                                            [placeholder]="placeholders.password">
+                                    </div>
+
+                                    <div class="login-button mb-3">
+                                        <button class="btn btn-primary" (click)="login()">
+                                            Giriş Yap
+                                        </button>
+                                    </div>
+
+                                    <div class="alert alert-info" role="alert">
+                                        <b>Sisteme ilk girecek;</b> <br>
+                                        <b>Öğrenicler için:</b> Kullanıcı adınız <b>öğrenci numaranız</b>, şifreniz <b>T.C. Kimlik Numaranız</b> olarak giriş yapabilirsinz.<br><br>
+                                        <b>Akademik personeller için:</b> Kullanıcı adınız <b>T.C. Kimlik Numaranız</b>, şifreniz <b>GSM Numaranız olarak (başında 0 olmadan)</b> giriş yapabilirsinz.  <br> 
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="right-side">
+                    <div class="right-side-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

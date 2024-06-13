@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-12">
+        <form [formGroup]="basvuruForm">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="baslangicTarihi" class="form-label">Başlangıç Tarihi</label>
+                        <input type="date" class="form-control" formControlName="baslangicTarihi" id="baslangicTarihi"
+                            [ngClass]="controlValid(baslangicTarihi)">
+                        <div *ngIf="baslangicTarihi.errors" class="text-danger">
+                            <span *ngIf="baslangicTarihi.errors['invalidMin']">
+                                Yapılabilir minimum staj süresi 10 gündür.
+                            </span>
+                            <span *ngIf="baslangicTarihi.errors['invalidMax']">
+                                Yapılabilir maximum staj süresi 30 gündür.
+                            </span>
+                            <span *ngIf="baslangicTarihi.errors['invalid']">
+                                Staj başlangıç tarihi bitiş tarihinden sonra seçilemez.
+                            </span>
+                            <span *ngIf="baslangicTarihi.errors['minDate']">
+                                Staj başlangıç tarihi bugünden önce seçilemez
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="bitisTarihi" class="form-label">Bitiş Tarihi</label>
+                        <input type="date" class="form-control" formControlName="bitisTarihi" id="bitisTarihi"
+                            [ngClass]="controlValid(bitisTarihi)">
+                        <div *ngIf="bitisTarihi.errors" class="text-danger">
+                            <span *ngIf="bitisTarihi.errors['invalidMin']">
+                                Yapılabilir minimum staj süresi 10 gündür.
+                            </span>
+                            <span *ngIf="bitisTarihi.errors['invalidMax']">
+                                Yapılabilir maximum staj süresi 30 gündür.
+                            </span>
+                            <span *ngIf="bitisTarihi.errors['invalid']">
+                                Staj bitiş tarihi başlangıç tarihinden önce seçilemez.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="gunSayisi" class="form-label">Gün Sayısı</label>
+                        <ng-select formControlName="gunSayisi" labelForId="gunSayisi" placeholder="Gün Seçin"
+                            [clearable]="false" [readonly]="bitisTarihi.invalid || baslangicTarihi.invalid" [ngClass]="controlValid(gunSayisi)">
+                            <ng-option [value]="5">5</ng-option>
+                            <ng-option [value]="6">6</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="gecerliGunSayisi" class="form-label" data-bs-toggle="modal" data-bs-target="#stajGunleri">Geçerli Gün Sayısı</label>
+                        <input type="text" class="form-control" id="gecerliGunSayisi" placeholder="Geçerli gün sayısı"
+                            [(ngModel)]="stajGunList.length" [ngModelOptions]="{standalone: true}" disabled>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="sigortaDurumu" class="form-label">Öğrenci 25 yaş ve üstü ise, genel sağlık sigortası
+                            var mı?</label>
+                        <ng-select formControlName="sigortaDurumu" labelForId="sigortaDurumu"
+                            placeholder="Sigorta Durumu Seçin" [clearable]="false"
+                            [ngClass]="controlValid(sigortaDurumu)">
+                            <ng-option [value]="'Evet'">Evet</ng-option>
+                            <ng-option [value]="'Hayır'">Hayır</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="stajKonusu" class="form-label">Staj Konusu</label>
+                        <input type="text" class="form-control" formControlName="stajKonusu" id="stajKonusu"
+                            placeholder="Staj konusu girin" [ngClass]="controlValid(stajKonusu)">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="firmaId" class="form-label">Firma</label>
+                        <ng-select #firmaSelect (change)="changeFirma($event)" formControlName="firmaId"
+                            labelForId="firmaId" placeholder="Firma seçin" [ngClass]="controlValid(firma)"
+                            [notFoundText]="'Firma bulunamadı'">
+                            <ng-template ng-header-tmp>
+                                <div class="ng-option py-0">
+                                    <div class="add-new-firma" (click)="selectControl(firmaSelect)"
+                                        data-bs-toggle="modal" data-bs-target="#newFirmaModal">
+                                        Yeni firma eklemek için tıklayın
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-container *ngFor="let firma of firmaList">
+                                <ng-option [value]="firma.id">{{firma.firmaAdi}}</ng-option>
+                            </ng-container>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="firmaYetkiliId" class="form-label">Firma Yetkilisi</label>
+                        <ng-select [readonly]="!firma.value" #firmaYetkiliSelect formControlName="firmaYetkiliId" labelForId="firmaYetkiliId"
+                            placeholder="Firma yetkilisi seçin" [ngClass]="controlValid(firmaYetkili)"
+                            [notFoundText]="'Firma yetkilisi bulunamadı'">
+                            <ng-template ng-header-tmp>
+                                <div class="ng-option py-0">
+                                    <div class="add-new-firma" (click)="selectControl(firmaYetkiliSelect)"
+                                        data-bs-toggle="modal" data-bs-target="#newFirmaYetkiliModal">
+                                        Yeni firma yetkilisi eklemek için tıklayın
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-container *ngFor="let firmaYetkili of firmaYetkiliList">
+                                <ng-option [value]="firmaYetkili.id">{{firmaYetkili.isim +'
+                                    '+firmaYetkili.soyisim}}</ng-option>
+                            </ng-container>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary d-block w-100" (click)="stajBasvuru()">
+                        Başvuru Yap
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="stajGunleri" tabindex="-1" aria-labelledby="stajGunleriLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="stajGunleriLabel">Staj Gunleri</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <ng-container *ngFor="let item of stajGunList">
+                            <div class="col-12">
+                                {{item}}
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-new-firma (firmaAdded$)="newFirmaAdded($event)" />
+<app-new-firma-yetkili (firmaYetkiliAdded$)="newFirmaYetkiliAdded($event)" [firmaId]="firmaId$" />

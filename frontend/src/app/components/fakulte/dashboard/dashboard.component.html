@@ -1,0 +1,175 @@
+<div class="row">
+
+    <div class="col-12 mb-4">
+        <div class="alert-container">
+            <div class="alert-header warning">
+                <i class="far fa-clock fa-fw"></i> Onay Bekleyen Staj Başvuruları
+            </div>
+            <div class="alert-content warning">
+                <div *ngIf="onayBekleyenStajList.length > 0" class="table-responsive-md">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Öğrenci Adı</th>
+                                <th scope="col">Başlangıç Tarihi</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Staj Yapılan Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of onayBekleyenStajList">
+                                <tr>
+                                    <td>
+                                        <app-ogrenci-name [ogrenciNo]="item.ogrenciNo" />
+                                    </td>
+                                    <td>
+                                        {{item.baslangicTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        {{item.bitisTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        <app-firma-name [firmaId]="item.firmaId" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf="onayBekleyenStajList.length === 0" class="text-center my-3 text-warning">
+                    Veri Yok
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="alert-container">
+            <div class="alert-header success">
+                <i class="far fa-check fa-fw"></i> Onaylanan Staj Başvuruları
+            </div>
+            <div class="alert-content success">
+                <div *ngIf="onaylanmisStajList.length > 0" class="table-responsive-md">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Öğrenci Adı</th>
+                                <th scope="col">Başlangıç Tarihi</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Staj Yapılan Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of onaylanmisStajList">
+                                <tr>
+                                    <td>
+                                        <app-ogrenci-name [ogrenciNo]="item.ogrenciNo" />
+                                    </td>
+                                    <td>
+                                        {{item.baslangicTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        {{item.bitisTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        <app-firma-name [firmaId]="item.firmaId" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="onaylanmisStajList.length === 0" class="text-center my-3 text-success">
+                    Veri Yok
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="alert-container">
+            <div class="alert-header primary">
+                <i class="far fa-check-double fa-fw"></i> Tamamlanan Staj Başvuruları
+            </div>
+            <div class="alert-content primary">
+                <div *ngIf="tamamlanmisStajList.length > 0" class="table-responsive-md">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Öğrenci Adı</th>
+                                <th scope="col">Başlangıç Tarihi</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Staj Yapılan Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of tamamlanmisStajList">
+                                <tr>
+                                    <td>
+                                        <app-ogrenci-name [ogrenciNo]="item.ogrenciNo" />
+                                    </td>
+                                    <td>
+                                        {{item.baslangicTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        {{item.bitisTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        <app-firma-name [firmaId]="item.firmaId" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="tamamlanmisStajList.length === 0" class="text-center my-3 text-primary">
+                    Veri Yok
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="alert-container">
+            <div class="alert-header danger">
+                <i class="far fa-times fa-fw"></i> Reddedilen Staj Başvuruları
+            </div>
+            <div class="alert-content danger">
+                <div *ngIf="reddedilenStajList.length > 0" class="table-responsive-md">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Öğrenci Adı</th>
+                                <th scope="col">Başlangıç Tarihi</th>
+                                <th scope="col">Bitiş Tarihi</th>
+                                <th scope="col">Staj Yapılan Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of reddedilenStajList">
+                                <tr>
+                                    <td>
+                                        <app-ogrenci-name [ogrenciNo]="item.ogrenciNo" />
+                                    </td>
+                                    <td>
+                                        {{item.baslangicTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        {{item.bitisTarihi | date: 'longDate'}}
+                                    </td>
+                                    <td>
+                                        <app-firma-name [firmaId]="item.firmaId" />
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="reddedilenStajList.length === 0" class="text-center my-3 text-danger">
+                    Veri Yok
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
