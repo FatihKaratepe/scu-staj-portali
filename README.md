@@ -45,7 +45,7 @@ cd frontend
 ```js
 const PORT  
  ```
- alanı istenilen porta göre düzenlenmelidir. Mevcut port numarası `8080` olarak belirlenmiştir. Bu işlemden sonra;
+ alanı istenilen porta göre düzenlenmelidir. Mevcut port numarası `8080` olarak belirlenmiştir. Bu işlemden sonra `backend/app/config/mail.js` içerisinde yer alan `sendgrid_api_key` alanına Sendgrid üzerinden alınan api key yerleştirilmeli ve yorum satırı iptal edilmelidir. Bu işlemden sonra;
 
 ```cmd
 cd backend
@@ -54,7 +54,7 @@ cd backend
 Komutları çalıştırılır. Bu komut sonrasında veri tabanı bağlantısı sağlandıktan sonra gerekli veritabanı tabloları oluşturulur.
 
 ## Frontend Çalıştırma İşlemi
-`backend/index.js` içerisinde yer alan port bilgisini düzenledikten sonra `frontend/src/app/environments/environment.ts`'ta bulunan `api: "http://localhost:8080/api"` api'ın port bilgisinin de aynı port numarası ile düzenlenmesi gerekmektedir. Bu işlemden sonra `backend/app/config/mail.js` içerisinde yer alan `sendgrid_api_key` alanına Sendgrid üzerinden alınan api key yerleştirilmeli ve yorum satırı iptal edilmelidir. Bu işlemden sonra;
+`backend/index.js` içerisinde yer alan port bilgisini düzenledikten sonra `frontend/src/app/environments/environment.ts`'ta bulunan `api: "http://localhost:8080/api"` api'ın port bilgisinin de aynı port numarası ile düzenlenmesi gerekmektedir. Bu işlemden sonra;
 
 ```cmd
 cd frontend
